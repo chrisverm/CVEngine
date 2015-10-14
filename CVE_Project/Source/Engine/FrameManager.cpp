@@ -18,7 +18,7 @@ namespace CVE
 			}
 		}
 
-		bool FrameManager::pop( FrameStage stage, Frame** out )
+		bool FrameManager::pop( FrameStage stage, FrameParams** out )
 		{
 			const uint8_t currentStageIndex = m_StageIndices[ stage ].load( std::memory_order_relaxed );
 			if ( m_Frames[ currentStageIndex ].CurrentStage == stage )
@@ -30,7 +30,7 @@ namespace CVE
 			return false;
 		}
 
-		bool FrameManager::push( FrameStage stage, Frame** in )
+		bool FrameManager::push( FrameStage stage, FrameParams** in )
 		{
 			const uint8_t currentStageIndex = m_StageIndices[ stage ].load( std::memory_order_relaxed );
 			if ( in == nullptr || ( *in )->CurrentStage != stage || ( *in ) != &m_Frames[ currentStageIndex ] )

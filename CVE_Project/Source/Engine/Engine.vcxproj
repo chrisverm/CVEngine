@@ -23,8 +23,10 @@
     <ClInclude Include="CVEErrorCodes.h" />
     <ClInclude Include="DXWindow.h" />
     <ClInclude Include="FrameManager.h" />
+    <ClInclude Include="FrameParams.h" />
     <ClInclude Include="IManager.h" />
     <ClInclude Include="MemoryManager.h" />
+    <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -32,6 +34,7 @@
     <ClCompile Include="DXWindow.cpp" />
     <ClCompile Include="FrameManager.cpp" />
     <ClCompile Include="MemoryManager.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -36,6 +36,12 @@
     <ClInclude Include="MemoryManager.h">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="FrameParams.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -49,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="MemoryManager.cpp">
       <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,8 @@
 #include "Main.h"
 #include "MemoryManager.h"
 #include "FrameManager.h"
+#include "GameManager.h"
+#include "RenderManager.h"
 
 using namespace CVE;
 
@@ -82,7 +84,7 @@ void RunGameLogicThread( void )
 {
 	while ( running->load() )
 	{
-
+		GAME_MGR.update();
 	}
 }
 
@@ -90,7 +92,7 @@ void RunRenderLogicThread( void )
 {
 	while ( running->load() )
 	{
-
+		RENDER_MGR.render();
 	}
 }
 
