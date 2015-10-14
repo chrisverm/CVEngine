@@ -11,8 +11,8 @@ namespace CVE
 		DXWindow::DXWindow( const System::WindowParams& params )
 			: System::Window( params )
 		{
-			m_Enable4xMsaa = false;
-			m_Msaa4xQuality = 0;
+			m_enable4xMsaa = false;
+			m_msaa4xQuality = 0;
 
 			DXGI_SWAP_CHAIN_DESC swapChainDesc;
 			swapChainDesc.BufferDesc.Width = m_width;
@@ -28,10 +28,10 @@ namespace CVE
 			swapChainDesc.Windowed = true;
 			swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 			swapChainDesc.Flags = 0;
-			if ( m_Enable4xMsaa )
+			if ( m_enable4xMsaa )
 			{
 				swapChainDesc.SampleDesc.Count = 4;
-				swapChainDesc.SampleDesc.Quality = m_Msaa4xQuality - 1;
+				swapChainDesc.SampleDesc.Quality = m_msaa4xQuality - 1;
 			}
 			else
 			{
@@ -55,10 +55,10 @@ namespace CVE
 				0,
 				D3D11_SDK_VERSION,
 				&swapChainDesc,
-				&m_SwapChain,
-				&m_Device,
+				&m_swapChain,
+				&m_device,
 				&featureLevel,
-				&m_DeviceContext
+				&m_deviceContext
 				);
 			if ( FAILED( hr ) )
 			{
@@ -66,33 +66,33 @@ namespace CVE
 				return;
 			}
 
-			hr = m_Device->CheckMultisampleQualityLevels(
+			hr = m_device->CheckMultisampleQualityLevels(
 				DXGI_FORMAT_R8G8B8A8_UNORM,
 				4,
-				&m_Msaa4xQuality
+				&m_msaa4xQuality
 				);
-			CVE_ASSERT( m_Msaa4xQuality > 0 );
+			CVE_ASSERT( m_msaa4xQuality > 0 );
 
 			resize();
 		}
 
 		DXWindow::~DXWindow( void )
 		{
-			ReleaseMacro( m_Device );
-			ReleaseMacro( m_DeviceContext );
-			ReleaseMacro( m_SwapChain );
-			ReleaseMacro( m_RenderTargetView );
-			ReleaseMacro( m_DepthStencilView );
-			ReleaseMacro( m_DepthStencilBuffer );
+			ReleaseMacro( m_device );
+			ReleaseMacro( m_deviceContext );
+			ReleaseMacro( m_swapChain );
+			ReleaseMacro( m_renderTargetView );
+			ReleaseMacro( m_depthStencilView );
+			ReleaseMacro( m_depthStencilBuffer );
 		}
 
 		void DXWindow::resize( void )
 		{
-			ReleaseMacro( m_RenderTargetView );
-			ReleaseMacro( m_DepthStencilView );
-			ReleaseMacro( m_DepthStencilBuffer );
+			ReleaseMacro( m_renderTargetView );
+			ReleaseMacro( m_depthStencilView );
+			ReleaseMacro( m_depthStencilBuffer );
 
-			m_SwapChain->ResizeBuffers(
+			m_swapChain->ResizeBuffers(
 				1,
 				m_width,
 				m_height,
@@ -100,8 +100,8 @@ namespace CVE
 				0
 				);
 			ID3D11Texture2D* backBuffer;
-			HR( m_SwapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), reinterpret_cast<void**>( &backBuffer ) ) );
-			HR( m_Device->CreateRenderTargetView( backBuffer, 0, &m_RenderTargetView ) );
+			HR( m_swapChain->GetBuffer( 0, __uuidof( ID3D11Texture2D ), reinterpret_cast<void**>( &backBuffer ) ) );
+			HR( m_device->CreateRenderTargetView( backBuffer, 0, &m_renderTargetView ) );
 			ReleaseMacro( backBuffer );
 
 			D3D11_TEXTURE2D_DESC depthStencilDesc;
@@ -114,10 +114,10 @@ namespace CVE
 			depthStencilDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 			depthStencilDesc.CPUAccessFlags = 0;
 			depthStencilDesc.MiscFlags = 0;
-			if ( m_Enable4xMsaa )
+			if ( m_enable4xMsaa )
 			{
 				depthStencilDesc.SampleDesc.Count = 4;
-				depthStencilDesc.SampleDesc.Quality = m_Msaa4xQuality - 1;
+				depthStencilDesc.SampleDesc.Quality = m_msaa4xQuality - 1;
 			}
 			else
 			{
@@ -125,10 +125,10 @@ namespace CVE
 				depthStencilDesc.SampleDesc.Quality = 0;
 			}
 
-			HR( m_Device->CreateTexture2D( &depthStencilDesc, 0, &m_DepthStencilBuffer ) );
-			HR( m_Device->CreateDepthStencilView( m_DepthStencilBuffer, 0, &m_DepthStencilView ) );
+			HR( m_device->CreateTexture2D( &depthStencilDesc, 0, &m_depthStencilBuffer ) );
+			HR( m_device->CreateDepthStencilView( m_depthStencilBuffer, 0, &m_depthStencilView ) );
 
-			m_DeviceContext->OMSetRenderTargets( 1, &m_RenderTargetView, m_DepthStencilView );
+			m_deviceContext->OMSetRenderTargets( 1, &m_renderTargetView, m_depthStencilView );
 
 			Window::resize( m_width, m_height );
 		}

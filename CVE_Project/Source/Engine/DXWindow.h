@@ -4,12 +4,15 @@
 #include <d3d11.h>
 #include "Window.h"
 
+//#include "RenderManager.h" // temporary, find work around
+
 namespace CVE
 {
 	namespace Graphics
 	{
 		class DXWindow : public System::Window
 		{
+			friend class RenderManager; // temporary, find work around
 		public:
 			DXWindow( const System::WindowParams& params );
 			~DXWindow( void );
@@ -17,15 +20,15 @@ namespace CVE
 			void resize( void );
 
 		private:
-			bool					m_Enable4xMsaa;
-			UINT					m_Msaa4xQuality;
+			bool					m_enable4xMsaa;
+			UINT					m_msaa4xQuality;
 
-			ID3D11Device*			m_Device;
-			ID3D11DeviceContext*	m_DeviceContext;
-			IDXGISwapChain*			m_SwapChain;
-			ID3D11Texture2D*		m_DepthStencilBuffer;
-			ID3D11DepthStencilView* m_DepthStencilView;
-			ID3D11RenderTargetView* m_RenderTargetView;
+			ID3D11Device*			m_device;
+			ID3D11DeviceContext*	m_deviceContext;
+			IDXGISwapChain*			m_swapChain;
+			ID3D11Texture2D*		m_depthStencilBuffer;
+			ID3D11DepthStencilView* m_depthStencilView;
+			ID3D11RenderTargetView* m_renderTargetView;
 		};
 	}
 }

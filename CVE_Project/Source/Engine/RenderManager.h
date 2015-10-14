@@ -2,7 +2,6 @@
 #define RENDER_MANAGER_H
 
 #include "Singleton.h"
-#include "FrameParams.h"
 
 #define RENDER_MGR CVE::Graphics::RenderManager::Instance()
 
@@ -18,8 +17,14 @@ namespace CVE
 			void release( void );
 			void render( void );
 
+
+			void setWindow( const DXWindow* const window );
+
 		private:
+			const DXWindow* m_window;
+			
 			FrameParams*	m_currentFrame;
+
 		};
 	}
 }

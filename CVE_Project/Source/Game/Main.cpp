@@ -40,6 +40,7 @@ int WINAPI WinMain( HINSTANCE appInstance, HINSTANCE prevInstance, PSTR cmdLine,
 	windowParams.Name = L"ASTEROIDS";
 	windowParams.WndProcedure = MainWndProc;
 	window = new Graphics::DXWindow( windowParams );
+	RENDER_MGR.setWindow( window );
 
 	// multi-threading variable initialization
 	running = new std::atomic_bool();
