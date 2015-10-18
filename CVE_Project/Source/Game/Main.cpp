@@ -4,6 +4,8 @@
 #include "GameManager.h"
 #include "RenderManager.h"
 
+#include "RenderResources.h"
+
 using namespace CVE;
 
 LRESULT MsgProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
@@ -32,6 +34,8 @@ int WINAPI WinMain( HINSTANCE appInstance, HINSTANCE prevInstance, PSTR cmdLine,
 	// manager/singleton initialization
 	SINGLETON_INIT( MEMORY_MGR );
 	SINGLETON_INIT( FRAME_MGR );
+
+	CVE::Graphics::cveLoadMeshFromOBJ( "crate_obj.obj" );
 
 	System::WindowParams windowParams;
 	windowParams.HInstance = appInstance;
