@@ -35,7 +35,7 @@ int WINAPI WinMain( HINSTANCE appInstance, HINSTANCE prevInstance, PSTR cmdLine,
 	SINGLETON_INIT( MEMORY_MGR );
 	SINGLETON_INIT( FRAME_MGR );
 
-	CVE::Graphics::cveLoadMeshFromOBJ( "crate_obj.obj" );
+	Graphics::cveLoadMeshFromOBJ( "crate_obj.obj" );
 
 	System::WindowParams windowParams;
 	windowParams.HInstance = appInstance;
@@ -46,12 +46,16 @@ int WINAPI WinMain( HINSTANCE appInstance, HINSTANCE prevInstance, PSTR cmdLine,
 	window = new Graphics::DXWindow( windowParams );
 	RENDER_MGR.setWindow( window );
 
+	timer = new System::Timer();
+
 	// multi-threading variable initialization
 	running = new std::atomic_bool();
 	running->store( true );
 	tGameLogic = std::thread( RunGameLogicThread );
 	tRenderLogic = std::thread( RunRenderLogicThread );
 	tGPULogic = std::thread( RunGPUThread );
+
+	timer->reset();
 
 	MSG msg = { 0 };
 	while ( msg.message != WM_QUIT )
@@ -63,7 +67,9 @@ int WINAPI WinMain( HINSTANCE appInstance, HINSTANCE prevInstance, PSTR cmdLine,
 		}
 		else
 		{
+			timer->tick();
 
+			CalculateFrameStats();
 		}
 	}
 
@@ -82,7 +88,37 @@ void Release( void )
 
 	delete running;
 
+	delete timer;
 	delete window;
+}
+
+void CalculateFrameStats( void )
+{
+	static int frameCnt = 0;
+	static float timeElapsed = 0.0f;
+
+	frameCnt++;
+
+	// Compute averages over one second period.
+	if ( ( timer->totalTime() - timeElapsed ) >= 1.0f )
+	{
+		float fps = (float)frameCnt; // fps = frameCnt / 1
+		float mspf = 1000.0f / fps;
+
+		std::wostringstream outs;
+		outs.precision( 6 );
+		outs << "Window" << L"  |  "
+			<< L"Width: " << window->width() << L"    "
+			<< L"Height: " << window->height() << L"    "
+			<< L"FPS: " << fps << L"    "
+			<< L"Frame Time: " << mspf << L" (ms)";
+
+		SetWindowText( *window->handle(), outs.str().c_str() );
+
+		// Reset for next average.
+		frameCnt = 0;
+		timeElapsed += 1.0f;
+	}
 }
 
 void RunGameLogicThread( void )

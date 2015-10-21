@@ -29,6 +29,7 @@
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="RenderResources.h" />
     <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +38,7 @@
     <ClCompile Include="MemoryManager.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="RenderResources.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

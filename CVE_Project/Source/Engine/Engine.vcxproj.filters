@@ -45,6 +45,9 @@
     <ClInclude Include="RenderResources.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="RenderResources.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>System</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

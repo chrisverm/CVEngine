@@ -1,7 +1,8 @@
 #ifndef RENDER_RESOURCES_H
 #define RENDER_RESOURCES_H
 
-#include <d3d11.h>>
+#include <d3d11.h>
+#include "CVEDataTypes.h"
 #include "CVEErrorCodes.h"
 #include <fstream>
 #include <sstream>
@@ -42,10 +43,10 @@ namespace CVE
 			}
 
 			// remove all comments from file before reading data
-			int comment, numComments = std::count( data.begin(), data.end(), '#' );
+			i32 comment, numComments = (i32)std::count( data.begin(), data.end(), '#' );
 			while ( numComments > 0 )
 			{
-				comment = data.find_first_of( '#' );
+				comment = (i32)data.find_first_of( '#' );
 
 				while ( comment != 0 && data[ comment - 1 ] == ' ' )
 					comment--;
@@ -62,8 +63,8 @@ namespace CVE
 		struct MeshResource
 		{
 			D3D_PRIMITIVE_TOPOLOGY	Topology;
-			UINT					VertexStride;
-			UINT					VertexIndexCount;
+			u32						VertexStride;
+			u32						VertexIndexCount;
 			ID3D11Buffer*			VertexBuffer;
 			ID3D11Buffer*			IndexBuffer;
 
@@ -88,8 +89,8 @@ namespace CVE
 
 		struct InstancingResource
 		{
-			UINT			Count;
-			UINT			Stride;
+			u32				Count;
+			u32				Stride;
 			ID3D11Buffer*	Buffer;
 
 			void Release( void )
