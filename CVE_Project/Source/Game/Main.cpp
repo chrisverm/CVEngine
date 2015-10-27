@@ -5,6 +5,7 @@
 #include "RenderManager.h"
 
 #include "RenderResources.h"
+#include <sstream>
 
 using namespace CVE;
 
@@ -35,7 +36,7 @@ int WINAPI WinMain( HINSTANCE appInstance, HINSTANCE prevInstance, PSTR cmdLine,
 	SINGLETON_INIT( MEMORY_MGR );
 	SINGLETON_INIT( FRAME_MGR );
 
-	Graphics::cveLoadMeshFromOBJ( "crate_obj.obj" );
+	Graphics::loadPNUMeshFromOBJ( "crate_obj.obj" );
 
 	System::WindowParams windowParams;
 	windowParams.HInstance = appInstance;
