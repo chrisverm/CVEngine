@@ -18,6 +18,11 @@ namespace CVE
 			}
 		}
 
+		void FrameManager::release( void )
+		{
+			// is this needed down the road?
+		}
+
 		bool FrameManager::pop( FrameStage stage, FrameParams** out )
 		{
 			const uint8_t currentStageIndex = m_StageIndices[ stage ].load( std::memory_order_relaxed );

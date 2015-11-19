@@ -35,6 +35,7 @@ int WINAPI WinMain( HINSTANCE appInstance, HINSTANCE prevInstance, PSTR cmdLine,
 	// manager/singleton initialization
 	SINGLETON_INIT( MEMORY_MGR );
 	SINGLETON_INIT( FRAME_MGR );
+	SINGLETON_INIT( RENDER_MGR );
 
 	Graphics::loadPNUMeshFromOBJ( "crate_obj.obj" );
 
@@ -91,6 +92,10 @@ void Release( void )
 
 	delete timer;
 	delete window;
+
+	SINGLETON_RELEASE( RENDER_MGR );
+	SINGLETON_RELEASE( FRAME_MGR );
+	SINGLETON_RELEASE( MEMORY_MGR );
 }
 
 void CalculateFrameStats( void )

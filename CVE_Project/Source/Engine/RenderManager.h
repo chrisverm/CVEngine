@@ -2,6 +2,7 @@
 #define RENDER_MANAGER_H
 
 #include "Singleton.h"
+#include <d3d11.h>
 
 #define RENDER_MGR CVE::Graphics::RenderManager::Instance()
 
@@ -17,11 +18,13 @@ namespace CVE
 			void release( void );
 			void render( void );
 
-
-			void setWindow( const DXWindow* const window );
+			void setWindow( DXWindow* const window );
 
 		private:
 			const DXWindow* m_window;
+
+			ID3D11Device*			m_device;
+			ID3D11DeviceContext*	m_deviceContext;
 			
 			FrameParams*	m_currentFrame;
 

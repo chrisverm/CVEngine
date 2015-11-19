@@ -20,6 +20,7 @@ private:								\
 	
 
 #define SINGLETON_INIT( s )	s.initialize();
+#define SINGLETON_RELEASE( s ) s.release();
 
 	}
 }

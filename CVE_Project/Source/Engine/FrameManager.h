@@ -19,6 +19,7 @@ namespace CVE
 			static const uint8_t STAGE_COUNT = 3;
 
 			void initialize( void );
+			void release( void );
 			bool pop( FrameStage stage, FrameParams** out );
 			bool push( FrameStage stage, FrameParams** in );
 
