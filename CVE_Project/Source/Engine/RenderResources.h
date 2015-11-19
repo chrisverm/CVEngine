@@ -9,9 +9,6 @@ namespace CVE
 {
 	namespace Graphics
 	{
-		bool loadPNMeshFromOBJ( char filePath[] );
-		bool loadPNUMeshFromOBJ( char filePath[] );
-		
 		struct MeshResource
 		{
 			D3D_PRIMITIVE_TOPOLOGY	Topology;
@@ -57,6 +54,9 @@ namespace CVE
 			MaterialResource	Material;
 			InstancingResource	Instances;
 		};
+
+		bool loadPNMeshFromCVOBJ( char filePath[], MeshResource* const mesh );
+		bool loadPNUMeshFromCVOBJ( char filePath[], MeshResource* const mesh );
 	}
 }
 

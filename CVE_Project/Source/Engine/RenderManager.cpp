@@ -1,6 +1,5 @@
-#include "DXWindow.h"
-#include "FrameParams.h"
-
+//#include "DXWindow.h"
+//#include "FrameParams.h"
 #include "RenderManager.h"
 #include "FrameManager.h"
 //#include <d3d11.h>
@@ -21,17 +20,17 @@ namespace CVE
 			D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_9_1;
 			HRESULT hr = 0;
 			HR( hr = D3D11CreateDevice(
-					0,
-					D3D_DRIVER_TYPE_HARDWARE,
-					0,
-					createDeviceFlags,
-					0,
-					0,
-					D3D11_SDK_VERSION,
-					&m_device,
-					&featureLevel,
-					&m_deviceContext )
-			);
+				0,
+				D3D_DRIVER_TYPE_HARDWARE,
+				0,
+				createDeviceFlags,
+				0,
+				0,
+				D3D11_SDK_VERSION,
+				&m_device,
+				&featureLevel,
+				&m_deviceContext )
+				);
 		}
 
 		void RenderManager::release( void )
@@ -68,6 +67,11 @@ namespace CVE
 
 			m_window = window;
 			window->initialize( m_device );
+		}
+
+		void RenderManager::createBuffer( const D3D11_BUFFER_DESC* const desc, const D3D11_SUBRESOURCE_DATA* const initialData, ID3D11Buffer** output )
+		{
+			m_device->CreateBuffer( desc, initialData, output );
 		}
 	}
 }

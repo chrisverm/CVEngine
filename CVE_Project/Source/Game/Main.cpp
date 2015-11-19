@@ -13,6 +13,20 @@ LRESULT MsgProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	switch ( msg )
 	{
+	case WM_ACTIVATE:
+		return 0;
+	case WM_SIZE: // the window is maximized, minimized, or changed size by the user
+		return 0;
+	case WM_ENTERSIZEMOVE: // the user begins adjusting the size of the window
+		return 0;
+	case WM_EXITSIZEMOVE: // the user ceases adjusting the size of the window
+		return 0;
+
+	case WM_KEYDOWN: // the user pushes a key
+		return 0;
+	case WM_KEYUP: // the user releases a key
+		return 0;
+
 	case WM_DESTROY:
 		PostQuitMessage( 0 );
 		return 0;
@@ -37,7 +51,9 @@ int WINAPI WinMain( HINSTANCE appInstance, HINSTANCE prevInstance, PSTR cmdLine,
 	SINGLETON_INIT( FRAME_MGR );
 	SINGLETON_INIT( RENDER_MGR );
 
-	Graphics::loadPNUMeshFromOBJ( "crate_obj.obj" );
+	CVE::Graphics::MeshResource mesh;
+	CVE_ASSERT( Graphics::loadPNUMeshFromCVOBJ( "crate.cvobj", &mesh ) );
+	mesh.Release();
 
 	System::WindowParams windowParams;
 	windowParams.HInstance = appInstance;

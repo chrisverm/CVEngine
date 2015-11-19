@@ -1,4 +1,5 @@
 #include "RenderResources.h"
+#include "RenderManager.h"
 #include <fstream>
 #include <sstream>
 
@@ -26,7 +27,7 @@ namespace CVE
 		/*
 			Load mesh from OBJ only containing Positions and Normals
 		*/
-		bool loadPNMeshFromOBJ( char filePath[] )
+		bool loadPNMeshFromCVOBJ( char filePath[], MeshResource* const mesh )
 		{
 			const struct CVEFloat3 { f32 x, y, z; };
 			const struct CVEVertex { CVEFloat3 position, normal; };
@@ -137,13 +138,40 @@ namespace CVE
 			delete[] tPositions;
 			delete[] tNormals;
 
+			mesh->Topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+			mesh->VertexStride = VERTEX_SIZE;
+			mesh->VertexIndexCount = cIndices;
+
+			D3D11_BUFFER_DESC bufferDesc = { 0 };
+			D3D11_SUBRESOURCE_DATA initialData { 0 };
+
+			// create the vertex buffer
+			bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+			bufferDesc.ByteWidth = cVertices * VERTEX_SIZE;
+			bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			bufferDesc.CPUAccessFlags = 0;
+			bufferDesc.MiscFlags = 0;
+			bufferDesc.StructureByteStride = 0;
+			initialData.pSysMem = tVertices;
+			RENDER_MGR.createBuffer( &bufferDesc, &initialData, &mesh->VertexBuffer );
+
+			// create the index buffer
+			bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+			bufferDesc.ByteWidth = cVertices * VERTEX_SIZE;
+			bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			bufferDesc.CPUAccessFlags = 0;
+			bufferDesc.MiscFlags = 0;
+			bufferDesc.StructureByteStride = 0;
+			initialData.pSysMem = tVertices;
+			RENDER_MGR.createBuffer( &bufferDesc, &initialData, &mesh->IndexBuffer );
+
 			delete[] tVertices;
 			delete[] tIndices;
 
 			return true;
 		}
 
-		bool loadPNUMeshFromOBJ( char filePath[] )
+		bool loadPNUMeshFromCVOBJ( char filePath[], MeshResource* const mesh )
 		{
 			const struct CVEFloat2 { f32 x, y; };
 			const struct CVEFloat3 { f32 x, y, z; };
@@ -264,13 +292,41 @@ namespace CVE
 			}
 			catch ( std::ifstream::failure e )
 			{
-				std::cerr << "Could not find " << filePath;// << "\n\n" << e.what() << "\n\n" << e.code().message;
+				std::cerr << "Could not find a .cvobj with name:" << filePath;// << "\n\n" << e.what() << "\n\n" << e.code().message;
 
 				return false;
 			}
 
 			delete[] tPositions;
 			delete[] tNormals;
+			delete[] tUVs;
+
+			mesh->Topology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+			mesh->VertexStride = VERTEX_SIZE;
+			mesh->VertexIndexCount = cIndices;
+
+			D3D11_BUFFER_DESC bufferDesc = { 0 };
+			D3D11_SUBRESOURCE_DATA initialData { 0 };
+
+			// create the vertex buffer
+			bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+			bufferDesc.ByteWidth = cVertices * VERTEX_SIZE;
+			bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			bufferDesc.CPUAccessFlags = 0;
+			bufferDesc.MiscFlags = 0;
+			bufferDesc.StructureByteStride = 0;
+			initialData.pSysMem = tVertices;
+			RENDER_MGR.createBuffer( &bufferDesc, &initialData, &mesh->VertexBuffer );
+
+			// create the index buffer
+			bufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+			bufferDesc.ByteWidth = cVertices * VERTEX_SIZE;
+			bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+			bufferDesc.CPUAccessFlags = 0;
+			bufferDesc.MiscFlags = 0;
+			bufferDesc.StructureByteStride = 0;
+			initialData.pSysMem = tVertices;
+			RENDER_MGR.createBuffer( &bufferDesc, &initialData, &mesh->IndexBuffer );
 
 			delete[] tVertices;
 			delete[] tIndices;
