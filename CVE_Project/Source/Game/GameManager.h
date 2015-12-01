@@ -3,6 +3,7 @@
 
 #include "Singleton.h"
 #include "FrameParams.h"
+#include "RenderResources.h"
 
 #define GAME_MGR GameManager::Instance()
 
@@ -16,6 +17,7 @@ public:
 
 private:
 	CVE::Graphics::FrameParams*	m_currentFrame;
+	CVE::Graphics::MeshResource m_mesh;
 };
 
 #endif

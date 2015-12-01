@@ -55,8 +55,16 @@ namespace CVE
 			InstancingResource	Instances;
 		};
 
-		bool loadPNMeshFromCVOBJ( char filePath[], MeshResource* const mesh );
-		bool loadPNUMeshFromCVOBJ( char filePath[], MeshResource* const mesh );
+		enum VertexFlags : i8
+		{
+			VERTEX_POSITION = 1,
+			VERTEX_NORMAL	= 2,
+			VERTEX_TEXCOORD	= 4
+		};
+
+		bool loadMeshFromCVO( char filePath[], const i8 vertexFlags, D3D_PRIMITIVE_TOPOLOGY topology, MeshResource* const mesh );
+		//bool loadPNMeshFromCVOBJ( char filePath[], MeshResource* const mesh );
+		//bool loadPNUMeshFromCVOBJ( char filePath[], MeshResource* const mesh );
 	}
 }
 
